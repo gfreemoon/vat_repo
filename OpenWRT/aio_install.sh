@@ -20,6 +20,10 @@ if [ "$mode" = "1" ]; then
     echo "Installing Tailscale..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
 
+    # Install Podkop
+    echo "Installing Podkop..."
+    sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
+
     # Install YouTubeUnblock
     echo "Installing YouTubeUnblock..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/install_youtubeUnblock.sh)
@@ -27,10 +31,6 @@ if [ "$mode" = "1" ]; then
     # Install YouTubeUnblock Config Generator
     echo "Installing YouTubeUnblock Config Generator..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
-
-    # Install Podkop
-    echo "Installing Podkop..."
-    sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
 
     echo "Automatic installation complete!"
 else
@@ -60,6 +60,14 @@ else
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
     fi
 
+    # Install Podkop
+    echo "Podkop: Routes specific domains, IPs, or subnets through proxy/VPN/tunnels using sing-box and FakeIP."
+    read -p "Install Podkop? (y/n): " install_podkop
+    if [ "$install_podkop" = "y" ] || [ "$install_podkop" = "Y" ]; then
+        echo "Installing Podkop..."
+        sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
+    fi
+
     # Install YouTubeUnblock
     echo "YouTubeUnblock: Enables ad-free YouTube streaming."
     read -p "Install YouTubeUnblock? (y/n): " install_yt
@@ -74,14 +82,6 @@ else
     if [ "$install_yt_config" = "y" ] || [ "$install_yt_config" = "Y" ]; then
         echo "Installing YouTubeUnblock Config Generator..."
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
-    fi
-
-    # Install Podkop
-    echo "Podkop: Routes specific domains, IPs, or subnets through proxy/VPN/tunnels using sing-box and FakeIP."
-    read -p "Install Podkop? (y/n): " install_podkop
-    if [ "$install_podkop" = "y" ] || [ "$install_podkop" = "Y" ]; then
-        echo "Installing Podkop..."
-        sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
     fi
 
     echo "Manual installation complete!"
