@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# Install YouTubeUnblock
-sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/install_youtubeUnblock.sh)
-
 # Install Podkop
 sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
+
+# Install YouTubeUnblock
+sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/install%2Bconfig.sh)
 
 # Configuration instructions
 echo "Important: Configure Podkop manually!"
