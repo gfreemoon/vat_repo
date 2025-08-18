@@ -20,9 +20,17 @@ if [ "$mode" = "1" ]; then
     echo "Installing Tailscale..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
 
-    # Install YouTubeUnblock + Podkop
-    echo "Installing YouTubeUnblock + Podkop..."
-    sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/install_yt+podkop.sh)
+    # Install YouTubeUnblock
+    echo "Installing YouTubeUnblock..."
+    sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/install_youtubeUnblock.sh)
+
+    # Install YouTubeUnblock Config Generator
+    echo "Installing YouTubeUnblock Config Generator..."
+    sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
+
+    # Install Podkop
+    echo "Installing Podkop..."
+    sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
 
     echo "Automatic installation complete!"
 else
@@ -37,7 +45,7 @@ else
     fi
 
     # Install DPI Fix
-    echo "DPI Fix: This is done to prevent DPI from interfering when offloading is enabled."
+    echo "DPI Fix: Prevents Deep Packet Inspection from interfering when offloading is enabled."
     read -p "Install DPI Fix? (y/n): " install_dpi
     if [ "$install_dpi" = "y" ] || [ "$install_dpi" = "Y" ]; then
         echo "Installing DPI Fix..."
@@ -52,12 +60,28 @@ else
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
     fi
 
-    # Install YouTubeUnblock + Podkop
-    echo "YouTubeUnblock + Podkop: Enables ad-free YouTube and access to blocked sites via your VDS."
-    read -p "Install YouTubeUnblock + Podkop? (y/n): " install_yt_podkop
-    if [ "$install_yt_podkop" = "y" ] || [ "$install_yt_podkop" = "Y" ]; then
-        echo "Installing YouTubeUnblock + Podkop..."
-        sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/install_yt+podkop.sh)
+    # Install YouTubeUnblock
+    echo "YouTubeUnblock: Enables ad-free YouTube streaming."
+    read -p "Install YouTubeUnblock? (y/n): " install_yt
+    if [ "$install_yt" = "y" ] || [ "$install_yt" = "Y" ]; then
+        echo "Installing YouTubeUnblock..."
+        sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/install_youtubeUnblock.sh)
+    fi
+
+    # Install YouTubeUnblock Config Generator
+    echo "YouTubeUnblock Config Generator: Automatically configures YouTubeUnblock using AllowDomains list from ITDog."
+    read -p "Install YouTubeUnblock Config Generator? (y/n): " install_yt_config
+    if [ "$install_yt_config" = "y" ] || [ "$install_yt_config" = "Y" ]; then
+        echo "Installing YouTubeUnblock Config Generator..."
+        sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
+    fi
+
+    # Install Podkop
+    echo "Podkop: Routes specific domains, IPs, or subnets through proxy/VPN/tunnels using sing-box and FakeIP."
+    read -p "Install Podkop? (y/n): " install_podkop
+    if [ "$install_podkop" = "y" ] || [ "$install_podkop" = "Y" ]; then
+        echo "Installing Podkop..."
+        sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
     fi
 
     echo "Manual installation complete!"
@@ -65,5 +89,6 @@ fi
 
 echo "Important: Manually configure components as needed!"
 echo "- For Podkop: Ensure YouTube uses YouTubeUnblock, disable 'Russia Inside', use your VDS with key."
+echo "- For Tailscale: Configure with your authentication key."
 echo "Reboot router: reboot"
 echo "After reboot, verify ad-free YouTube, access to blocked sites, and other components."
