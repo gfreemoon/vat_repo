@@ -52,14 +52,6 @@ else
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/dpi_fix.sh)
     fi
 
-    # Install Tailscale
-    echo "Tailscale: Sets up a secure VPN for remote access to your network."
-    read -p "Install Tailscale? (y/n): " install_tailscale
-    if [ "$install_tailscale" = "y" ] || [ "$install_tailscale" = "Y" ]; then
-        echo "Installing Tailscale..."
-        sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
-    fi
-
     # Install Podkop
     echo "Podkop: Routes specific domains, IPs, or subnets through proxy/VPN/tunnels using sing-box and FakeIP."
     read -p "Install Podkop? (y/n): " install_podkop
@@ -82,6 +74,14 @@ else
     if [ "$install_yt_config" = "y" ] || [ "$install_yt_config" = "Y" ]; then
         echo "Installing YouTubeUnblock Config Generator..."
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
+    fi
+
+    # Install Tailscale
+    echo "Tailscale: Sets up a secure VPN for remote access to your network."
+    read -p "Install Tailscale? (y/n): " install_tailscale
+    if [ "$install_tailscale" = "y" ] || [ "$install_tailscale" = "Y" ]; then
+        echo "Installing Tailscale..."
+        sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
     fi
 
     echo "Manual installation complete!"
