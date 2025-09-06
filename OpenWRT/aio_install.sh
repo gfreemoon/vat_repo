@@ -83,7 +83,7 @@ else
         echo "Installing Tailscale..."
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
     fi
-
+    
     echo "Manual installation complete!"
 fi
 
