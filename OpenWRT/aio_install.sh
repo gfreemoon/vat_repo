@@ -16,10 +16,6 @@ if [ "$mode" = "1" ]; then
     echo "Installing DPI Fix..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/dpi_fix.sh)
 
-    # Install Tailscale
-    echo "Installing Tailscale..."
-    sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
-
     # Install Podkop
     echo "Installing Podkop..."
     sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
@@ -31,6 +27,10 @@ if [ "$mode" = "1" ]; then
     # Install YouTubeUnblock Config Generator
     echo "Installing YouTubeUnblock Config Generator..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
+
+    # Install Tailscale
+    echo "Installing Tailscale..."
+    sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
 
     echo "Automatic installation complete!"
 else
