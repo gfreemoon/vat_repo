@@ -28,9 +28,6 @@ if [ "$mode" = "1" ]; then
     echo "Installing YouTubeUnblock Config Generator..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
 
-    # Install Tailscale
-    echo "Installing Tailscale..."
-    sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
 
     echo "Automatic installation complete!"
 else
@@ -76,14 +73,6 @@ else
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
     fi
 
-    # Install Tailscale
-    echo "Tailscale: Sets up a secure VPN for remote access to your network."
-    read -p "Install Tailscale? (y/n): " install_tailscale
-    if [ "$install_tailscale" = "y" ] || [ "$install_tailscale" = "Y" ]; then
-        echo "Installing Tailscale..."
-        sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/openwrt_autosetup/refs/heads/main/tailscale.sh)
-    fi
-    
     echo "Manual installation complete!"
 fi
 
