@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "groupid": "custom",
+      "type": "singbox",
+      "site": "",
+      "remark": "Самостоятельная настройка",
+      "urlOrPath": "",
+      "userAgentCompatible": "",
+      "proxyFilter": {
+        "method": "all",
+        "keywordOrRegx": ""
+      },
+      "proxyFilterRemove": [],
+      "keepDiversionRules": false,
+      "enableDiversionRules": true,
+      "reloadAfterProfileUpdate": true,
+      "testLatencyAfterProfileUpdate": false,
+      "testLatencyAutoRemove": false,
+      "enable": true,
+      "editAble": false,
+      "updateTime": "",
+      "proxyStrategy": "preferProxy",
+      "updateDurationMinutes": null,
+      "traffic": null,
+      "isp": null,
+      "servers": [],
+      "urltests": []
+    }
+  ]
+}
