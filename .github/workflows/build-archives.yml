@@ -12,7 +12,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0
+        fetch-depth: 0  # Полный клон репо
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -22,7 +22,11 @@ jobs:
     - name: Create directories
       run: |
         mkdir -p Karing light dark
-        ls -R  # Отладка: покажем структуру папок
+        ls -R  # Отладка: структура папок
+
+    - name: Clean temp directories
+      run: |
+        rm -rf light/* dark/*  # Очищаем light и dark перед копированием
 
     - name: Modify settings for light
       run: |
@@ -93,27 +97,27 @@ jobs:
         cp Karing/files/karing_routing_group.json light/
         cp Karing/files/karing_subscribe.json light/
         cp Karing/files/karing_subscribe_use.json light/
-        ls -l light/  # Отладка: что в папке light
+        ls -l light/  # Отладка: содержимое light
 
     - name: Copy common files to dark
       run: |
         cp Karing/files/karing_routing_group.json dark/
         cp Karing/files/karing_subscribe.json dark/
         cp Karing/files/karing_subscribe_use.json dark/
-        ls -l dark/  # Отладка: что в папке dark
+        ls -l dark/  # Отладка: содержимое dark
 
     - name: Build ZIPs
       run: |
         cd light && zip -r ../Karing/5head_Karing.backup.zip .
         cd ../dark && zip -r ../Karing/5head_Karing_dark.backup.zip .
-        ls -l Karing/  # Отладка: проверяем, создались ли ZIP-ы
+        ls -l Karing/  # Отладка: содержимое Karing
 
     - name: Commit and push ZIPs
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
         git add Karing/*.zip
-        git status  # Отладка: что будет закоммичено
+        git status  # Отладка: что добавлено в коммит
         git commit -m 'Auto-build Karing archives' || echo 'No changes to commit'
         git push origin main
       env:
