@@ -17,9 +17,9 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Create temp dirs
+    - name: Create directories
       run: |
-        mkdir -p light dark
+        mkdir -p Karing light dark
 
     - name: Modify settings for light
       run: |
@@ -99,9 +99,8 @@ jobs:
 
     - name: Build ZIPs
       run: |
-        cd light && zip -r ../5head_Karing.backup.zip *
-        cd ../dark && zip -r ../5head_Karing_dark.backup.zip *
-        mv ../*.zip Karing/
+        cd light && zip -r ../Karing/5head_Karing.backup.zip .
+        cd ../dark && zip -r ../Karing/5head_Karing_dark.backup.zip .
 
     - name: Commit and push ZIPs
       run: |
