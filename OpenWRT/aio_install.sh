@@ -8,6 +8,10 @@ read -p "Enter 1 or 2: " mode
 if [ "$mode" = "1" ]; then
     echo "Running automatic installation..."
 
+    echo "Installing ca-bundle, curl, kmod..."
+    opkg update
+    opkg install curl ca-bundle kmod-nft-queue kmod-nfnetlink-queue 
+
     # Install BBR
     echo "Installing BBR..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/bbr.sh)
