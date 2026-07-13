@@ -1,5 +1,10 @@
 #!/bin/sh
 
+КРАСНЫЙ='\033[0;31m'
+ЗЕЛЕНЫЙ='\033[0;32m'
+ЖЕЛТЫЙ='\033[0;33m'
+СБРОС='\033[0m'
+
 # Проверяем пакетный менеджер и вытаскиваем точную архитектуру железа
 if command -v apk >/dev/null 2>&1; then
     PKG_MANAGER="apk"
@@ -10,26 +15,26 @@ elif command -v opkg >/dev/null 2>&1; then
     EXT="ipk"
     ARCH=$(opkg info kernel | grep Architecture | awk '{print $2}')
 else
-    echo "Не найден ни apk, ни opkg. Скрипт остановлен."
+    echo "${КРАСНЫЙ}Не найден ни apk, ни opkg. Скрипт остановлен.${СБРОС}"
     exit 1
 fi
 
 if [ -z "$ARCH" ]; then
-    echo "Ошибка: Не удалось определить архитектуру роутера."
+    echo "${КРАСНЫЙ}Ошибка: Не удалось определить архитектуру роутера.${СБРОС}"
     exit 1
 fi
 
-echo "Менеджер пакетов: $PKG_MANAGER | Архитектура: $ARCH"
-
-# Получаем ссылки на последний релиз с GitHub spatiumstas
+echo "Менеджер пакетов: ${ЗЕЛЕНЫЙ}$PKG_MANAGER${СБРОС} | Архитектура: ${ЗЕЛЕНЫЙ}$ARCH${СБРОС}"
 echo "Поиск пакетов в релизах GitHub..."
-RELEASE_JSON=$(curl -s https://api.github.com/repos/spatiumstas/tg-ws-proxy-go/releases/latest)
+
+# Получаем JSON релизов и разбиваем его по запятым на отдельные строки
+RELEASE_JSON=$(curl -s https://api.github.com/repos/spatiumstas/tg-ws-proxy-go/releases/latest | tr ',' '\n')
 
 CORE_URL=$(echo "$RELEASE_JSON" | grep "browser_download_url" | grep "$ARCH" | grep "\.$EXT" | cut -d '"' -f 4)
 LUCI_URL=$(echo "$RELEASE_JSON" | grep "browser_download_url" | grep "luci-app" | grep "\.$EXT" | cut -d '"' -f 4)
 
 if [ -z "$CORE_URL" ] || [ -z "$LUCI_URL" ]; then
-    echo "Ошибка: Не удалось найти полный комплект пакетов ($EXT) под архитектуру $ARCH."
+    echo "${КРАСНЫЙ}Ошибка: Не удалось найти полный комплект пакетов ($EXT) под архитектуру $ARCH.${СБРОС}"
     exit 1
 fi
 
@@ -62,6 +67,7 @@ fi
 # Сброс кэша веб-интерфейса
 rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
 
-echo "Установка успешно завершена!"
-echo "Обнови или выйди-войди в панель управления роутером."
+echo ""
+echo "${ЗЕЛЕНЫЙ}Установка успешно завершена!${СБРОС}"
+echo "${ЖЕЛТЫЙ}Обнови или выйди-войди в панель управления роутером.${СБРОС}"
 echo "Настройки и управление: 'Службы' (Services) -> 'TG WS Proxy'."
