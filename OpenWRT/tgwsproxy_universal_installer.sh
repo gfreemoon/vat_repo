@@ -26,8 +26,7 @@ fi
 echo -e "Менеджер пакетов: ${GREEN}$PKG_MANAGER${RESET} | Архитектура: ${GREEN}$ARCH${RESET}"
 echo "Поиск пакетов в релизах GitHub..."
 
-# Качаем JSON и бьем его на строки по кавычкам (надежный способ для busybox)
-RELEASE_DATA=$(curl -s -H "Cache-Control: no-cache" https://api.github.com/repos/spatiumstas/tg-ws-proxy-go/releases/latest | sed 's/"/\n/g')
+RELEASE_DATA=$(curl -s https://api.github.com/repos/spatiumstas/tg-ws-proxy-go/releases/latest | sed 's/"/\n/g')
 
 CORE_URL=$(echo "$RELEASE_DATA" | grep "browser_download_url" | grep "$ARCH" | grep "\.$EXT$")
 LUCI_URL=$(echo "$RELEASE_DATA" | grep "browser_download_url" | grep "luci-app" | grep "\.$EXT$")
@@ -40,11 +39,11 @@ fi
 if [ "$PKG_MANAGER" = "apk" ]; then
     echo "Скачиваем публичный ключ для подписи apk пакетов..."
     mkdir -p /etc/apk/keys
-    wget -q --header="Cache-Control: no-cache" -O /etc/apk/keys/tg-ws-proxy.pem "https://github.com/spatiumstas/tg-ws-proxy-go/releases/latest/download/tg-ws-proxy.pem"
+    wget -q -O /etc/apk/keys/tg-ws-proxy.pem "https://github.com/spatiumstas/tg-ws-proxy-go/releases/latest/download/tg-ws-proxy.pem"
 
     echo "Скачивание пакетов..."
-    wget -q --header="Cache-Control: no-cache" -O /tmp/tg-ws-proxy.apk "$CORE_URL"
-    wget -q --header="Cache-Control: no-cache" -O /tmp/luci-app-tg-ws-proxy.apk "$LUCI_URL"
+    wget -q -O /tmp/tg-ws-proxy.apk "$CORE_URL"
+    wget -q -O /tmp/luci-app-tg-ws-proxy.apk "$LUCI_URL"
     
     echo "Установка пакетов через apk..."
     apk update
@@ -52,8 +51,8 @@ if [ "$PKG_MANAGER" = "apk" ]; then
     rm -f /tmp/tg-ws-proxy.apk /tmp/luci-app-tg-ws-proxy.apk
 else
     echo "Скачивание пакетов..."
-    wget -q --header="Cache-Control: no-cache" -O /tmp/tg-ws-proxy.ipk "$CORE_URL"
-    wget -q --header="Cache-Control: no-cache" -O /tmp/luci-app-tg-ws-proxy.ipk "$LUCI_URL"
+    wget -q -O /tmp/tg-ws-proxy.ipk "$CORE_URL"
+    wget -q -O /tmp/luci-app-tg-ws-proxy.ipk "$LUCI_URL"
     
     echo "Установка пакетов через opkg..."
     opkg update
