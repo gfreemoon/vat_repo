@@ -13,23 +13,27 @@ if [ "$mode" = "1" ]; then
     opkg install curl ca-bundle kmod-nft-queue kmod-nfnetlink-queue 
 
     # Install BBR
-    echo "Installing BBR..."
+    echo "Installing BBR by community..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/bbr.sh)
 
     # Install DPI Fix
-    echo "Installing DPI Fix..."
+    echo "Installing DPI Fix by community..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/dpi_fix.sh)
 
+    # Install TG WS PROXY
+    echo "Installing TG WS PROXY by spatiumstas..."
+    sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/tgwsproxy_universal_installer.sh)
+
     # Install Podkop
-    echo "Installing Podkop..."
+    echo "Installing Podkop by itdoginfo..."
     sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
 
     # Install YouTubeUnblock
-    echo "Installing YouTubeUnblock..."
+    echo "Installing YouTubeUnblock by Waujito..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/install_youtubeUnblock.sh)
 
     # Install YouTubeUnblock Config Generator
-    echo "Installing YouTubeUnblock Config Generator..."
+    echo "Installing YouTubeUnblock Config Generator by gfreemoon..."
     sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
 
 
@@ -38,7 +42,7 @@ else
     echo "Running manual installation..."
 
     # Install BBR
-    echo "BBR: Optimizes network performance, reduces latency, improves stability for downloads and gaming."
+    echo "BBR by community: Optimizes network performance, reduces latency, improves stability for downloads and gaming."
     read -p "Install BBR? (y/n): " install_bbr
     if [ "$install_bbr" = "y" ] || [ "$install_bbr" = "Y" ]; then
         echo "Installing BBR..."
@@ -46,15 +50,23 @@ else
     fi
 
     # Install DPI Fix
-    echo "DPI Fix: Prevents Deep Packet Inspection from interfering when offloading is enabled."
+    echo "DPI Fix by community: Prevents Deep Packet Inspection from interfering when offloading is enabled."
     read -p "Install DPI Fix? (y/n): " install_dpi
     if [ "$install_dpi" = "y" ] || [ "$install_dpi" = "Y" ]; then
         echo "Installing DPI Fix..."
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/dpi_fix.sh)
     fi
 
+    # Install TG_WS_PROXY and luci app
+    echo "TG WS PROXY by spatiumstas: Local telegram proxy for openwrt with WebUI."
+    read -p "Install TG WS PROXY? (y/n): " install_tg_ws_proxy
+    if [ "$install_tg_ws_proxy" = "y" ] || [ "$install_tg_ws_proxy" = "Y" ]; then
+        echo "Installing TG WS PROXY..."
+        sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/vat_repo/refs/heads/main/OpenWRT/tgwsproxy_universal_installer.sh)
+    fi
+
     # Install Podkop
-    echo "Podkop: Routes specific domains, IPs, or subnets through proxy/VPN/tunnels using sing-box and FakeIP."
+    echo "Podkop by itdoginfo: Routes specific domains, IPs, or subnets through proxy/VPN/tunnels using sing-box and FakeIP."
     read -p "Install Podkop? (y/n): " install_podkop
     if [ "$install_podkop" = "y" ] || [ "$install_podkop" = "Y" ]; then
         echo "Installing Podkop..."
@@ -62,7 +74,7 @@ else
     fi
 
     # Install YouTubeUnblock
-    echo "YouTubeUnblock: Enables ad-free YouTube streaming."
+    echo "YouTubeUnblock by Waujito: Enables ad-free YouTube streaming."
     read -p "Install YouTubeUnblock? (y/n): " install_yt
     if [ "$install_yt" = "y" ] || [ "$install_yt" = "Y" ]; then
         echo "Installing YouTubeUnblock..."
@@ -70,8 +82,8 @@ else
     fi
 
     # Install YouTubeUnblock Config Generator
-    echo "YouTubeUnblock Config Generator: Automatically configures YouTubeUnblock using AllowDomains list from ITDog."
-    read -p "Install YouTubeUnblock Config Generator? (y/n): " install_yt_config
+    echo "YouTubeUnblock Config Generator by gfreemoon: Automatically configures YouTubeUnblock using AllowDomains list from ITDog."
+    read -p "Install YouTubeUnblock and Config Generator? (y/n): " install_yt_config
     if [ "$install_yt_config" = "y" ] || [ "$install_yt_config" = "Y" ]; then
         echo "Installing YouTubeUnblock Config Generator..."
         sh <(wget -O - https://raw.githubusercontent.com/gfreemoon/install_youtubeunblock_universal/refs/heads/main/ytu_config_generator.sh)
