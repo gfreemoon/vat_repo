@@ -64,6 +64,6 @@ fi
 rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
 
 echo ""
-echo -e "${GREEN}Ustanovka uspeshno zavershena!${RESET}"
-echo -e "${YELLOW}Obnovi ili perezajdi v adminu routera.${RESET}"
+echo -e "${GREEN}tg-ws-proxy installed!${RESET}"
+echo -e "${YELLOW}Reload or sign out\in LuCi.${RESET}"
 echo "Menu: 'Services' -> 'TG WS Proxy'."
