@@ -5,7 +5,6 @@
 ЖЕЛТЫЙ='\033[0;33m'
 СБРОС='\033[0m'
 
-# Проверяем пакетный менеджер и вытаскиваем точную архитектуру железа
 if command -v apk >/dev/null 2>&1; then
     PKG_MANAGER="apk"
     ARCH=$(apk --print-arch 2>/dev/null)
@@ -27,8 +26,7 @@ fi
 echo "Менеджер пакетов: ${ЗЕЛЕНЫЙ}$PKG_MANAGER${СБРОС} | Архитектура: ${ЗЕЛЕНЫЙ}$ARCH${СБРОС}"
 echo "Поиск пакетов в релизах GitHub..."
 
-# Получаем JSON релизов и разбиваем его по запятым на отдельные строки
-RELEASE_JSON=$(curl -s https://api.github.com/repos/spatiumstas/tg-ws-proxy-go/releases/latest | tr ',' '\n')
+RELEASE_JSON=$(curl -s -H "Cache-Control: no-cache" https://api.github.com/repos/spatiumstas/tg-ws-proxy-go/releases/latest | tr ',' '\n')
 
 CORE_URL=$(echo "$RELEASE_JSON" | grep "browser_download_url" | grep "$ARCH" | grep "\.$EXT" | cut -d '"' -f 4)
 LUCI_URL=$(echo "$RELEASE_JSON" | grep "browser_download_url" | grep "luci-app" | grep "\.$EXT" | cut -d '"' -f 4)
@@ -38,15 +36,14 @@ if [ -z "$CORE_URL" ] || [ -z "$LUCI_URL" ]; then
     exit 1
 fi
 
-# Скачивание и установка пакетов
 if [ "$PKG_MANAGER" = "apk" ]; then
     echo "Скачиваем публичный ключ для подписи apk пакетов..."
     mkdir -p /etc/apk/keys
-    wget -qO /etc/apk/keys/tg-ws-proxy.pem "https://github.com/spatiumstas/tg-ws-proxy-go/releases/latest/download/tg-ws-proxy.pem"
+    wget -q --no-cache -O /etc/apk/keys/tg-ws-proxy.pem "https://github.com/spatiumstas/tg-ws-proxy-go/releases/latest/download/tg-ws-proxy.pem"
 
     echo "Скачивание пакетов..."
-    wget -qO /tmp/tg-ws-proxy.apk "$CORE_URL"
-    wget -qO /tmp/luci-app-tg-ws-proxy.apk "$LUCI_URL"
+    wget -q --no-cache -O /tmp/tg-ws-proxy.apk "$CORE_URL"
+    wget -q --no-cache -O /tmp/luci-app-tg-ws-proxy.apk "$LUCI_URL"
     
     echo "Установка пакетов через apk..."
     apk update
@@ -54,8 +51,8 @@ if [ "$PKG_MANAGER" = "apk" ]; then
     rm -f /tmp/tg-ws-proxy.apk /tmp/luci-app-tg-ws-proxy.apk
 else
     echo "Скачивание пакетов..."
-    wget -qO /tmp/tg-ws-proxy.ipk "$CORE_URL"
-    wget -qO /tmp/luci-app-tg-ws-proxy.ipk "$LUCI_URL"
+    wget -q --no-cache -O /tmp/tg-ws-proxy.ipk "$CORE_URL"
+    wget -q --no-cache -O /tmp/luci-app-tg-ws-proxy.ipk "$LUCI_URL"
     
     echo "Установка пакетов через opkg..."
     opkg update
@@ -64,7 +61,6 @@ else
     rm -f /tmp/tg-ws-proxy.ipk /tmp/luci-app-tg-ws-proxy.ipk
 fi
 
-# Сброс кэша веб-интерфейса
 rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
 
 echo ""
