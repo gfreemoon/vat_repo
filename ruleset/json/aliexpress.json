@@ -1,25 +1,4 @@
 {
   "version": 1,
-  "rules": [
-    {
-      "domain": [
-        "aeplatform.ru",
-        "alicdn.com",
-        "aliexpress-media.com",
-        "aliexpress.com",
-        "aliexpress.ru",
-        "taobao.com"
-      ]
-    },
-    {
-      "domain_suffix": [
-        ".aeplatform.ru",
-        ".alicdn.com",
-        ".aliexpress-media.com",
-        ".aliexpress.com",
-        ".aliexpress.ru",
-        ".taobao.com"
-      ]
-    }
-  ]
+  "rules": []
 }
