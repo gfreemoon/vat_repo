@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "rules": []
+  "rules": [
+    {
+      "domain": [
+        "kwcdn.com",
+        "temu.com"
+      ]
+    },
+    {
+      "domain_suffix": [
+        ".kwcdn.com",
+        ".temu.com"
+      ]
+    }
+  ]
 }
