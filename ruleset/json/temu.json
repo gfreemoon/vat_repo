@@ -1,19 +1,4 @@
 {
   "version": 1,
-  "rules": [
-    {
-      "domain": [
-        "akamaized.net",
-        "kwcdn.com",
-        "temu.net"
-      ]
-    },
-    {
-      "domain_suffix": [
-        ".akamaized.net",
-        ".kwcdn.com",
-        ".temu.net"
-      ]
-    }
-  ]
+  "rules": []
 }
