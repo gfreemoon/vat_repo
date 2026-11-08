@@ -1,0 +1,43 @@
+{
+  "BlockSites": [
+    "geosite:category-ads"
+  ],
+  "DirectIp": [
+    "geoip:ru",
+    "geoip:private"
+  ],
+  "DirectSites": [
+    "domain:ru",
+    "domain:рф",
+    "domain:su",
+    "geosite:category-ru",
+    "domain:yandex.net",
+    "domain:vk.com",
+    "domain:ok.ru"
+  ],
+  "DnsHosts": {
+    "cloudflare-dns.com": "1.1.1.1",
+    "dns.google": "8.8.8.8"
+  },
+  "DomainStrategy": "IPIfNonMatch",
+  "DomesticDNSDomain": "https://common.dot.dns.yandex.net",
+  "DomesticDNSIP": "77.88.8.8",
+  "DomesticDNSType": "DoH",
+  "FakeDNS": false,
+  "Name": "Россия — базовый",
+  "ProxySites": [
+    "domain:google.com",
+    "domain:googleapis.com",
+    "domain:gstatic.com",
+    "domain:youtube.com",
+    "domain:googlevideo.com",
+    "domain:telegram.org",
+    "domain:t.me",
+    "domain:x.com",
+    "domain:twitter.com"
+  ],
+  "RemoteDNSDomain": "https://cloudflare-dns.com/dns-query",
+  "RemoteDNSIP": "1.1.1.1",
+  "RemoteDNSType": "DoH",
+  "RouteOrder": "block-direct-proxy"
+}
