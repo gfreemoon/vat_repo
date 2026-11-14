@@ -1,0 +1,803 @@
+# ============================================================
+# Mihomo / Clash Meta config — порт из Karing
+# Для FlClashX / Clash Verge / Mihomo
+# ============================================================
+# Основные принципы:
+# - TUN обязателен для PROCESS-NAME / PROCESS-PATH
+# - Трекеры и заблокированные сайты → PROXY
+# - Торрент-клиенты и игры → DIRECT
+# - Adblock / malware → REJECT
+# ============================================================
+
+mixed-port: 7890
+socks-port: 7891
+redir-port: 7892
+tproxy-port: 7893
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: info
+ipv6: true
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: always          # важно для PROCESS-NAME
+keep-alive-interval: 15
+
+# --- Аутентификация (LAN) ---
+# Сгенерировано автоматически. Поменяй при желании.
+authentication:
+  - "flclash_R7JvaC:KY2B4jP6RwGZBVi6"
+
+# --- Profile ---
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+# --- Geo data (MetaCubeX) ---
+geodata-mode: true
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
+  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+
+# --- DNS (Fake-IP) ---
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - "localhost"
+    - "+.local"
+    - "+.localhost"
+    - "time.*.com"
+    - "time.*.gov"
+    - "time.*.edu.cn"
+    - "time.*.apple.com"
+    - "time1.*.com"
+    - "time2.*.com"
+    - "time3.*.com"
+    - "time4.*.com"
+    - "time5.*.com"
+    - "time6.*.com"
+    - "time7.*.com"
+    - "ntp.*.com"
+    - "ntp1.*.com"
+    - "ntp2.*.com"
+    - "ntp3.*.com"
+    - "ntp4.*.com"
+    - "ntp5.*.com"
+    - "ntp6.*.com"
+    - "ntp7.*.com"
+    - "+.pool.ntp.org"
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "+.stun.*.*.*.*"
+    - "stun.*.*"
+    - "stun.*.*.*"
+    - "heartbeat.belkin.com"
+    - "*.msftconnecttest.com"
+    - "*.msftncsi.com"
+    - "msftconnecttest.com"
+    - "msftncsi.com"
+    - "+.xboxlive.com"
+    - "xbox.*.microsoft.com"
+    - "*.battlenet.com.cn"
+    - "*.battlenet.com"
+    - "*.blzstatic.cn"
+    - "+.srv.nintendo.net"
+    - "+.stun.playstation.net"
+    - "proxy.golang.org"
+  default-nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
+    - 223.5.5.5
+  nameserver:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    - https://dns.google/dns-query
+    - tls://1.1.1.1:853
+  fallback:
+    - https://1.0.0.1/dns-query
+    - https://8.8.4.4/dns-query
+    - tls://8.8.8.8:853
+  fallback-filter:
+    geoip: true
+    geoip-code: RU
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+  proxy-server-nameserver:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+
+# --- TUN (обязательно для PROCESS-NAME) ---
+tun:
+  enable: true
+  stack: mixed                    # system / gvisor / mixed
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: false
+  dns-hijack:
+    - any:53
+  mtu: 1500
+  # Android per-app whitelist — только эти приложения попадают в TUN
+  # Внутри TUN они следуют обычным domain/geosite/geoip правилам
+  include-package:
+    - ai.perplexity.app.android
+    - ai.x.grok
+    - ai.x.grok.bot
+    - anddea.youtube
+    - anddea.youtube.music
+    - app.cli.revanced
+    - app.gamenative
+    - app.mihon
+    - app.morphe.android.apps.youtube.music
+    - app.morphe.android.youtube
+    - app.morphe.manager
+    - app.revanced.android.apps.youtube.music
+    - app.revanced.android.gms
+    - app.revanced.android.youtube
+    - app.revanced.manager
+    - app.revanced.manager.flutter
+    - app.revenge
+    - app.revenge.manager
+    - app.rv.android.youtube
+    - app.sankakucomplex.com
+    - app.vendetta
+    - com.alibaba.aliexpresshd
+    - com.aliucord
+    - com.aliucord.installer
+    - com.aliucord.manager
+    - com.amazon.avod.thirdpartyclient
+    - com.android.chrome
+    - com.android.vending
+    - com.anime365.app
+    - com.anthropic.claude
+    - com.apple.android.music
+    - com.aurora.store
+    - com.ayugram.telegram
+    - com.ayugram.telegram.beta
+    - com.ayugram.telegram.web
+    - com.badmanners.murglar2
+    - com.booru.viewer
+    - com.brave.browser
+    - com.cdprojektred.gwent
+    - com.chess
+    - com.crunchyroll.crunchyroid
+    - com.deepseek.chat
+    - com.deezus.pchan
+    - com.deniscerr.ytdl
+    - com.deniscerri.ytdl
+    - com.discord
+    - com.disney.disneyplus
+    - com.e621.app
+    - com.einnovation.temu
+    - com.exteragram.messenger
+    - com.exteragram.messenger.beta
+    - com.exteragram.messenger.web
+    - com.fSociety.pocketmal
+    - com.facebook.katana
+    - com.facebook.lite
+    - com.facebook.orca
+    - com.filmix.uhd
+    - com.g.pocketmal
+    - com.gbox.android
+    - com.gbwhatsapp
+    - com.gelbooru.app
+    - com.github.k1rakishou.chan
+    - com.github.k1rakishou.chan.fdroid
+    - com.github.libtube
+    - com.google.android.apps.bard
+    - com.google.android.apps.youtube.creator
+    - com.google.android.apps.youtube.kids
+    - com.google.android.apps.youtube.music
+    - com.google.android.apps.youtube.music.tv
+    - com.google.android.apps.youtube.unplugged
+    - com.google.android.googlequicksearchbox
+    - com.google.android.youtube
+    - com.google.android.youtube.tv
+    - com.google.android.youtube.unplugged
+    - com.hdrezka.app
+    - com.hedon_haven.app
+    - com.hentaoid.app
+    - com.iMe.android
+    - com.instagram.android
+    - com.instapro.android
+    - com.javbus.app
+    - com.kinoplay.app
+    - com.kisspeace.nsfwbox
+    - com.lazymedia.deluxe
+    - com.lib.animelib
+    - com.lscript.cz.libretube
+    - com.luna.music
+    - com.machiav3lli.fdroid
+    - com.maheshtechnicals.sealplus
+    - com.mico.turrit
+    - com.microsoft.copilot
+    - com.microsoft.emmx
+    - com.microsoft.xboxone.smartglass
+    - com.mira.boorusama
+    - com.mishiranu.dashchan
+    - com.morphe.app
+    - com.mukul.jan.aniList
+    - com.my.kizzy
+    - com.netflix.mediaclient
+    - com.nhentai.app
+    - com.nkl.xnxx.nativeapp
+    - com.nnm.num
+    - com.noaisu.loliSnatcher
+    - com.nusverse.marvelsnap
+    - com.openai.chatgpt
+    - com.opera.browser
+    - com.oplus.multiapp
+    - com.panagiotis.invizible
+    - com.pornhub.official
+    - com.pragmaticdreams.torba
+    - com.project.nutaku
+    - com.pyoncord
+    - com.radolyn.ayugram
+    - com.reayur.dantotsu
+    - com.reddit.frontpage
+    - com.renshuu.renshuu_org
+    - com.revenge
+    - com.revenge.manager
+    - com.roblox.client
+    - com.rule34.app
+    - com.sankakucomplex.app
+    - com.sankakucomplex.idol.black
+    - com.sec.android.app.sbrowser
+    - com.shiki.app
+    - com.snapchat.android
+    - com.soundcloud.android
+    - com.spankbang.app
+    - com.spotify.music
+    - com.supercell.boombeach
+    - com.supercell.brawlstars
+    - com.supercell.clashroyale
+    - com.supercell.hayday
+    - com.supercell.squadbusters
+    - com.teamsmart.videomanager.tv
+    - com.twitter.android
+    - com.vanced.android.apps.youtube.music
+    - com.vanced.android.youtube
+    - com.vanced.manager
+    - com.vencord.manager
+    - com.vendetta
+    - com.vendetta.installer
+    - com.vendetta.manager
+    - com.viber.voip
+    - com.viewbox.app
+    - com.vivaldi.browser
+    - com.wbd.stream
+    - com.wg.xvideos.app
+    - com.wg.xvideos.nativeapp.beta
+    - com.whatsapp
+    - com.whatsapp.w4b
+    - com.xhamster.app
+    - com.xnxx.app
+    - com.yandex.browser
+    - com.yowhatsapp
+    - com.zhiliaoapp.musically
+    - com.zoom.us
+    - dnscrypt.mobi.net
+    - emuready.gamehub.lite
+    - eu.kanade.aniyomi
+    - eu.kanade.tachiyomi.extension.all.hentai
+    - eu.kanade.tachiyomi.extension.all.sankaku
+    - eu.kanade.tachiyomi.extension.ru.hentalib
+    - eu.kanade.tachiyomi.j2k
+    - eu.kanade.tachiyomi.sy
+    - io.anilab.app
+    - io.dashchan2
+    - io.github.kotatogram
+    - ir.miraze.ninja
+    - jp.pxv.android
+    - mark.via.gp
+    - me.animelib.app
+    - me.knighthat.kreate
+    - me.mangalib.app
+    - me.rutrackersearch.app
+    - mega.privacy.android.app
+    - moe.koiverse.archivetune
+    - nya.miku.wishmaster
+    - one.shikimori.app
+    - onlymash.flexbooru.play
+    - org.briarproject.briar.android
+    - org.briarproject.mailbox
+    - org.courville.nova
+    - org.floens.chan
+    - org.forkgram.messenger
+    - org.koitharu.kotatsu
+    - org.mewx.nekogram
+    - org.microg.vanced.android.gms
+    - org.morphe.app
+    - org.mozilla.firefox
+    - org.onionshare.android
+    - org.polymorphicshade.tubular
+    - org.schabi.newpipe
+    - org.schabi.newpipe.debug
+    - org.session.lokinet
+    - org.telegram.Bgram
+    - org.telegram.messenger
+    - org.telegram.messenger.beta
+    - org.telegram.messenger.froid
+    - org.telegram.messenger.web
+    - org.telegram.mowgli
+    - org.telegram.mowgli.beta
+    - org.telegram.mowgli.web
+    - org.telegram.plus
+    - org.thunderdog.challegram
+    - org.torproject.android
+    - org.torproject.topbrowser
+    - org.torproject.torbrowser
+    - org.torproject.torbrowser_alpha
+    - org.yottacode.songtube
+    - org.zwanoo.android.speedtest
+    - pan.alexander.tordnscrypt
+    - ph.e2ee.quiet
+    - pine.flow.app
+    - ru.deeplex.app
+    - ru.fourpda.client
+    - ru.freeman42.app4pda
+    - ru.tiardev.kinotrend
+    - top.rootu.lampa
+    - tv.anilibria.app
+    - tw.nekomimi.nekogram
+    - ua.gardenapple.itchupdater
+    - unofficial.nya.miku.wishmaster
+    - xyz.anilabx.app
+
+# --- Sniffer ---
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443]
+
+# ============================================================
+# Rule Providers
+# ============================================================
+rule-providers:
+  # itdog — GeoBlock (заблокированные в РФ домены)
+  itdog-geoblock:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/itdoginfo/allow-domains/releases/download/2026-11-09_19-01/geoblock_domain.mrs"
+    path: ./ruleset/itdog-geoblock.mrs
+    interval: 86400
+    proxy: PROXY
+
+  # Можно добавить ещё от itdog при желании:
+  # itdog-russia-inside:
+  #   type: http
+  #   behavior: domain
+  #   format: mrs
+  #   url: "https://github.com/itdoginfo/allow-domains/raw/main/MRS/russia-inside_domain.mrs"
+  #   path: ./ruleset/itdog-russia-inside.mrs
+  #   interval: 86400
+
+# ============================================================
+# Proxy Groups (минимальный набор — подставь свои ноды)
+# ============================================================
+proxy-groups:
+  - name: PROXY
+    type: select
+    proxies:
+      - 🚀 Auto
+      - DIRECT
+      # сюда подставятся ноды из подписки
+
+  - name: 🚀 Auto
+    type: url-test
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    lazy: true
+    proxies:
+      # сюда подставятся ноды из подписки
+
+  - name: 🛑 REJECT
+    type: select
+    proxies:
+      - REJECT
+      - REJECT-DROP
+
+# ============================================================
+# Rules
+# ============================================================
+rules:
+
+  # ----------------------------------------------------------
+  # 0. Защита от петель и спец. правила (со скрина)
+  # ----------------------------------------------------------
+  - IP-CIDR,127.0.0.0/8,REJECT,no-resolve
+  - IP-CIDR,0.0.0.0/32,REJECT,no-resolve
+  - IP-CIDR6,::1/128,REJECT,no-resolve
+  - IP-CIDR6,::/128,REJECT,no-resolve
+
+  # Блокировка QUIC (UDP 443) — часто помогает с обходами
+  - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT-DROP
+
+  # Блокировка STUN (часто используется для WebRTC leak)
+  - AND,((NETWORK,UDP),(DST-PORT,3478)),REJECT-DROP
+  - AND,((NETWORK,UDP),(DST-PORT,3479)),REJECT-DROP
+  - AND,((NETWORK,UDP),(DST-PORT,19302)),REJECT-DROP
+  - AND,((NETWORK,UDP),(DST-PORT,19303)),REJECT-DROP
+
+  # DNS over TLS
+  - DST-PORT,853,REJECT
+
+  # ----------------------------------------------------------
+  # 1. Локальная сеть
+  # ----------------------------------------------------------
+  - GEOSITE,private,DIRECT
+  - GEOIP,LAN,DIRECT,no-resolve
+  - GEOIP,private,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+  - IP-CIDR6,fc00::/7,DIRECT,no-resolve
+
+  # ----------------------------------------------------------
+  # 2. PROCESS-NAME (высокий приоритет)
+  # ----------------------------------------------------------
+
+  # 🖥️ app>proxy (примеры — дополни своими)
+  - PROCESS-NAME,anydesk.exe,PROXY
+  - PROCESS-NAME,ExampleApp.exe,PROXY
+
+  # 🖥️ app>direct — торрент-клиенты, VPN-клиенты, игры и т.д.
+  - PROCESS-NAME,javaw.exe,DIRECT
+  - PROCESS-NAME,java.exe,DIRECT
+  - PROCESS-NAME,qbittorrent.exe,DIRECT
+  - PROCESS-NAME,transmission-qt.exe,DIRECT
+  - PROCESS-NAME,transmission-gtk.exe,DIRECT
+  - PROCESS-NAME,utorrent.exe,DIRECT
+  - PROCESS-NAME,uTorrentWeb.exe,DIRECT
+  - PROCESS-NAME,bittorrent.exe,DIRECT
+  - PROCESS-NAME,BitTorrentWeb.exe,DIRECT
+  - PROCESS-NAME,deluge.exe,DIRECT
+  - PROCESS-NAME,tixati.exe,DIRECT
+  - PROCESS-NAME,biglybt.exe,DIRECT
+  - PROCESS-NAME,picotorrent.exe,DIRECT
+  - PROCESS-NAME,torserver.exe,DIRECT
+  - PROCESS-NAME,torrserver.exe,DIRECT
+  - PROCESS-NAME,TorrServer.exe,DIRECT
+  - PROCESS-NAME,ace_engine.exe,DIRECT
+  - PROCESS-NAME,acestream.exe,DIRECT
+  - PROCESS-NAME,ace_player.exe,DIRECT
+  - PROCESS-NAME,stremio.exe,DIRECT
+  - PROCESS-NAME,elementum.exe,DIRECT
+  - PROCESS-NAME,popcorn-time.exe,DIRECT
+  - PROCESS-NAME,webtorrent.exe,DIRECT
+  - PROCESS-NAME,halite.exe,DIRECT
+  - PROCESS-NAME,tribler.exe,DIRECT
+  - PROCESS-NAME,frostwire.exe,DIRECT
+  - PROCESS-NAME,vuze.exe,DIRECT
+
+  # OpenVPN / VPN-клиенты
+  - PROCESS-NAME,openvpn.exe,DIRECT
+  - PROCESS-NAME,openvpn-gui.exe,DIRECT
+  - PROCESS-NAME,openvpnserv.exe,DIRECT
+  - PROCESS-NAME,OpenVPNConnect.exe,DIRECT
+  - PROCESS-NAME,ovpntray.exe,DIRECT
+  - PROCESS-NAME,Pritunl.exe,DIRECT
+  - PROCESS-NAME,viscosity.exe,DIRECT
+  - PROCESS-NAME,SophosSSLVPN.exe,DIRECT
+  - PROCESS-NAME,FortiSSLVPNClient.exe,DIRECT
+  - PROCESS-NAME,RadminVPN.exe,DIRECT
+  - PROCESS-NAME,RvControlSvc.exe,DIRECT
+  - PROCESS-NAME,RvGui.exe,DIRECT
+
+  # Популярные игры (чтобы не гонять через прокси)
+  - PROCESS-NAME,steam.exe,DIRECT
+  - PROCESS-NAME,steamwebhelper.exe,DIRECT
+  - PROCESS-NAME,steamservice.exe,DIRECT
+  - PROCESS-NAME,GameOverlayUI.exe,DIRECT
+  - PROCESS-NAME,cs2.exe,DIRECT
+  - PROCESS-NAME,dota2.exe,DIRECT
+  - PROCESS-NAME,deadlock.exe,DIRECT
+  - PROCESS-NAME,r5apex.exe,DIRECT
+  - PROCESS-NAME,Apex.exe,DIRECT
+  - PROCESS-NAME,VALORANT-Win64-Shipping.exe,DIRECT
+  - PROCESS-NAME,League of Legends.exe,DIRECT
+  - PROCESS-NAME,GTA5.exe,DIRECT
+  - PROCESS-NAME,PlayGTAV.exe,DIRECT
+  - PROCESS-NAME,FiveM.exe,DIRECT
+  - PROCESS-NAME,FiveM_GTAProcess.exe,DIRECT
+  - PROCESS-NAME,ragemp_v.exe,DIRECT
+  - PROCESS-NAME,TslGame.exe,DIRECT
+  - PROCESS-NAME,PUBG.exe,DIRECT
+  - PROCESS-NAME,FortniteClient-Win64-Shipping.exe,DIRECT
+  - PROCESS-NAME,FortniteLauncher.exe,DIRECT
+  - PROCESS-NAME,RainbowSix.exe,DIRECT
+  - PROCESS-NAME,RainbowSix_Vulkan.exe,DIRECT
+  - PROCESS-NAME,rust.exe,DIRECT
+  - PROCESS-NAME,RustClient.exe,DIRECT
+  - PROCESS-NAME,Overwatch.exe,DIRECT
+  - PROCESS-NAME,ModernWarfare.exe,DIRECT
+  - PROCESS-NAME,cod.exe,DIRECT
+  - PROCESS-NAME,BlackOpsCW.exe,DIRECT
+  - PROCESS-NAME,Vanguard.exe,DIRECT
+  - PROCESS-NAME,EpicGamesLauncher.exe,DIRECT
+  - PROCESS-NAME,EpicWebHelper.exe,DIRECT
+  - PROCESS-NAME,EOSOverlay.exe,DIRECT
+
+  # 🇷🇺 Russia — российский софт
+  - PROCESS-NAME,1cv8.exe,DIRECT
+  - PROCESS-NAME,1cv8c.exe,DIRECT
+  - PROCESS-NAME,1cv8s.exe,DIRECT
+  - PROCESS-NAME,sbis.exe,DIRECT
+  - PROCESS-NAME,YandexDisk.exe,DIRECT
+  - PROCESS-NAME,YandexMusic.exe,DIRECT
+  - PROCESS-NAME,VK.exe,DIRECT
+  - PROCESS-NAME,VKTeams.exe,DIRECT
+  - PROCESS-NAME,VKPlay.exe,DIRECT
+  - PROCESS-NAME,GameCenter.exe,DIRECT
+  - PROCESS-NAME,Lesta.exe,DIRECT
+  - PROCESS-NAME,MyOffice.exe,DIRECT
+  - PROCESS-NAME,R7Office.exe,DIRECT
+
+  # 🍚 Gacha
+  - PROCESS-NAME,HYP.exe,DIRECT
+  - PROCESS-NAME,GenshinImpact.exe,DIRECT
+  - PROCESS-NAME,StarRail.exe,DIRECT
+  - PROCESS-NAME,ZenlessZoneZero.exe,DIRECT
+  - PROCESS-NAME,Wuthering Waves.exe,DIRECT
+  - PROCESS-NAME,NIKKE.exe,DIRECT
+  - PROCESS-NAME,PGR.exe,DIRECT
+  - PROCESS-NAME,TowerOfFantasy.exe,DIRECT
+
+  # 📲 Discord / Telegram (процессы — через PROXY, чтобы работали)
+  - PROCESS-NAME,Discord.exe,PROXY
+  - PROCESS-NAME,DiscordPTB.exe,PROXY
+  - PROCESS-NAME,DiscordCanary.exe,PROXY
+  - PROCESS-NAME,Vesktop.exe,PROXY
+  - PROCESS-NAME,Telegram.exe,PROXY
+  - PROCESS-NAME,AyuGram.exe,PROXY
+  - PROCESS-NAME,Kotatogram.exe,PROXY
+  - PROCESS-NAME,64Gram.exe,PROXY
+
+  # 🧅 Tor
+  - PROCESS-NAME,tor.exe,PROXY
+  - PROCESS-NAME,tor-client.exe,PROXY
+  - PROCESS-NAME,arti.exe,PROXY
+  - PROCESS-NAME,obfs4proxy.exe,PROXY
+  - PROCESS-NAME,lyrebird.exe,PROXY
+
+  # PROCESS-PATH (Steam и игровые папки — DIRECT)
+  - PROCESS-PATH,C:\Program Files (x86)\Steam\steamapps\common,DIRECT
+  - PROCESS-PATH,C:\Program Files\Steam\steamapps\common,DIRECT
+  - PROCESS-PATH,C:\SteamLibrary\steamapps\common,DIRECT
+  - PROCESS-PATH,D:\SteamLibrary\steamapps\common,DIRECT
+  - PROCESS-PATH,E:\SteamLibrary\steamapps\common,DIRECT
+  - PROCESS-PATH,C:\Program Files\Epic Games,DIRECT
+
+  # ----------------------------------------------------------
+  # 3. Блокировки (Adblock / Malware / Adobe Activation)
+  # ----------------------------------------------------------
+  - GEOSITE,category-ads,REJECT
+  - GEOSITE,category-ads-all,REJECT
+  - GEOSITE,malware,REJECT
+  - GEOIP,malware,REJECT,no-resolve
+  - GEOSITE,phishing,REJECT
+  - GEOIP,phishing,REJECT,no-resolve
+  - GEOSITE,adobe-activation,REJECT
+  - GEOSITE,adobe@ads,REJECT
+  - GEOSITE,cryptominers,REJECT
+
+  # ----------------------------------------------------------
+  # 4. DIRECT-группы
+  # ----------------------------------------------------------
+
+  # 🍎 Apple
+  - GEOSITE,apple,DIRECT
+  - GEOSITE,apple-dev,DIRECT
+  - GEOSITE,apple-pki,DIRECT
+  - GEOSITE,apple-update,DIRECT
+
+  # 🇷🇺 Russia
+  - DOMAIN,trudvsem.ru,DIRECT
+  - DOMAIN,gosuslugi.ru,DIRECT
+  - GEOSITE,category-ru,DIRECT
+  - GEOSITE,ru,DIRECT
+  - GEOSITE,category-gov-ru,DIRECT
+  - GEOIP,RU,DIRECT,no-resolve
+
+  # 🍚 Gacha / Hoyoverse
+  - GEOSITE,hoyoverse,DIRECT
+  - GEOSITE,mihoyo,DIRECT
+  - GEOSITE,mihoyo-cn,DIRECT
+  - GEOSITE,nikke,DIRECT
+
+  # 🎮 Игровые лаунчеры и сервисы
+  - GEOSITE,steam,DIRECT
+  - GEOSITE,gog,DIRECT
+  - GEOSITE,epicgames,DIRECT
+  - GEOSITE,origin,DIRECT
+  - GEOSITE,ea,DIRECT
+  - GEOSITE,blizzard,DIRECT
+  - GEOSITE,ubisoft,DIRECT
+  - GEOSITE,riot,DIRECT
+  - GEOSITE,xbox,DIRECT
+  - GEOSITE,sony,DIRECT
+  - GEOSITE,nintendo,DIRECT
+  - GEOSITE,roblox,DIRECT
+  - GEOSITE,tencent,DIRECT
+  - GEOSITE,tencent-games,DIRECT
+
+  # 🛒 Ali / Temu / eBay (как у тебя было DIRECT)
+  - GEOSITE,alibaba,DIRECT
+  - GEOSITE,alibaba@cn,DIRECT
+  - GEOSITE,ebay,DIRECT
+
+  # 🟦 Microsoft (оставил DIRECT, как в оригинале, кроме скрина)
+  - GEOSITE,microsoft,DIRECT
+  - GEOSITE,onedrive,DIRECT
+  - GEOSITE,bing,DIRECT
+
+  # BitTorrent protocol
+  - NETWORK,bittorrent,DIRECT
+
+  # ----------------------------------------------------------
+  # 5. PROXY-группы (всё, что должно идти через прокси)
+  # ----------------------------------------------------------
+
+  # 🌏 Geoblock (itdog + ручные)
+  - RULE-SET,itdog-geoblock,PROXY
+  - GEOSITE,4pda,PROXY
+  - GEOSITE,habr,PROXY
+  - GEOSITE,notion,PROXY
+  - GEOSITE,hdrezka,PROXY
+  - GEOSITE,kinopub,PROXY
+
+  # 🏴‍☠️ Трекеры и торрент-сайты → PROXY (чтобы работали в РФ)
+  - GEOSITE,category-public-tracker,PROXY
+  - GEOSITE,category-pt,PROXY
+  - GEOSITE,rutracker,PROXY
+  - GEOSITE,nyaa,PROXY
+  - GEOSITE,piratebay,PROXY
+  - GEOSITE,1337x,PROXY
+  - DOMAIN-SUFFIX,rutracker.org,PROXY
+  - DOMAIN-SUFFIX,nnmclub.to,PROXY
+  - DOMAIN-SUFFIX,kinozal.tv,PROXY
+  - DOMAIN-SUFFIX,rutor.info,PROXY
+  - DOMAIN-SUFFIX,rutor.org,PROXY
+
+  # 🐱 GitHub
+  - GEOSITE,github,PROXY
+  - GEOSITE,github-copilot,PROXY
+  - GEOIP,github,PROXY,no-resolve
+
+  # 🤖 AI
+  - GEOSITE,openai,PROXY
+  - GEOSITE,anthropic,PROXY
+  - GEOSITE,xai,PROXY
+  - GEOSITE,google-gemini,PROXY
+  - GEOSITE,google-deepmind,PROXY
+  - GEOSITE,category-ai-!cn,PROXY
+  - GEOSITE,category-ai-chat-!cn,PROXY
+  - GEOSITE,jetbrains,PROXY
+  - GEOSITE,cursor,PROXY
+  - GEOSITE,elevenlabs,PROXY
+  - GEOIP,openai,PROXY,no-resolve
+
+  # 👤 Meta / Instagram / Facebook
+  - GEOSITE,meta,PROXY
+  - GEOSITE,facebook,PROXY
+  - GEOSITE,instagram,PROXY
+  - GEOIP,facebook,PROXY,no-resolve
+
+  # 🐦 Twitter / X
+  - GEOSITE,twitter,PROXY
+  - GEOIP,twitter,PROXY,no-resolve
+
+  # 🌏 Google / YouTube
+  - GEOSITE,google,PROXY
+  - GEOSITE,youtube,PROXY
+  - GEOSITE,googlefcm,PROXY
+  - GEOIP,google,PROXY,no-resolve
+
+  # 🌸 Anime / Manga
+  - GEOSITE,anime,PROXY
+  - GEOSITE,18comic,PROXY
+  - GEOSITE,ehentai,PROXY
+
+  # 📺 Netflix / HBO / Disney и т.д.
+  - GEOSITE,netflix,PROXY
+  - GEOSITE,disney,PROXY
+  - GEOSITE,hbo,PROXY
+  - GEOSITE,primevideo,PROXY
+  - GEOIP,netflix,PROXY,no-resolve
+
+  # 📲 Discord / Telegram / WhatsApp / Viber
+  - GEOSITE,discord,PROXY
+  - GEOSITE,telegram,PROXY
+  - GEOSITE,whatsapp,PROXY
+  - GEOSITE,viber,PROXY
+  - GEOIP,telegram,PROXY,no-resolve
+
+  # 🎧 TikTok / Spotify / Soundcloud
+  - GEOSITE,tiktok,PROXY
+  - GEOSITE,spotify,PROXY
+  - GEOSITE,soundcloud,PROXY
+
+  # 🖼️ Pixiv
+  - GEOSITE,pixiv,PROXY
+
+  # ☁️ Cloudflare / AWS / CloudFront
+  - GEOSITE,cloudflare,PROXY
+  - GEOSITE,cloudflare-ipfs,PROXY
+  - GEOIP,cloudflare,PROXY,no-resolve
+  - GEOSITE,amazon,PROXY
+  - GEOSITE,aws,PROXY
+  - GEOIP,cloudfront,PROXY,no-resolve
+  - GEOIP,amazon,PROXY,no-resolve
+
+  # 📺 Twitch
+  - GEOSITE,twitch,PROXY
+  - DOMAIN,7tv.app,PROXY
+
+  # 🟢 Modrinth / Itch / Decky
+  - GEOSITE,modrinth,PROXY
+  - GEOSITE,itchio,PROXY
+
+  # 🔞 NSFW
+  - GEOSITE,category-porn,PROXY
+  - GEOSITE,pornhub,PROXY
+  - GEOSITE,xvideos,PROXY
+  - GEOSITE,xnxx,PROXY
+  - GEOSITE,xhamster,PROXY
+  - GEOSITE,youporn,PROXY
+  - GEOSITE,redtube,PROXY
+
+  # 🧅 Tor
+  - GEOSITE,tor,PROXY
+  - GEOSITE,torproject,PROXY
+  - GEOIP,tor,PROXY,no-resolve
+
+  # 👑 Supercell
+  - GEOSITE,supercell,PROXY
+  - DST-PORT,9339,PROXY
+  - DST-PORT,5222,PROXY
+
+  # 🎲 Various
+  - GEOSITE,docker,PROXY
+  - GEOSITE,linkedin,PROXY
+  - GEOSITE,deviantart,PROXY
+  - GEOSITE,2ch,PROXY
+  - GEOSITE,4chan,PROXY
+  - GEOSITE,4plebs,PROXY
+  - GEOSITE,5ch,PROXY
+  - GEOSITE,accuweather,PROXY
+  - DOMAIN,elevenlabs.io,PROXY
+  - DOMAIN,meduza.io,PROXY
+  - DOMAIN,simplex.im,PROXY
+
+  # 🌐 IP detect
+  - GEOSITE,category-ip-geo-detect,DIRECT
+
+  # ----------------------------------------------------------
+  # 6. Final
+  # ----------------------------------------------------------
+  - GEOIP,RU,DIRECT,no-resolve
+  - MATCH,PROXY
